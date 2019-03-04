@@ -37,3 +37,4 @@ rsconnect/
 
 # Data is private.
 /data
+.Rproj.user
