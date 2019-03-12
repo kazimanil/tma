@@ -15,11 +15,14 @@ fh_2013 = as.data.table(read.dta("data/2013_fh.dta"))
 fh_2014 = as.data.table(read.dta("data/2014_fh.dta"))
 f_2015 = fread("data/yma2015_fert_mikroveri.csv")
 f_2016 = fread("data/yma2016_fert_mikroveri.csv")
+f_2017 = fread("data/yma2017_fert_mikroveri.csv")
 h_2015 = fread("data/yma2015_hane_mikroveri.csv")
 h_2016 = fread("data/yma2016_hane_mikroveri.csv")
+h_2017 = fread("data/yma2017_hane_mikroveri.csv")
 fh_2015 = merge(f_2015, h_2015, all.x = TRUE, by = "BIRIMNO")
 fh_2016 = merge(f_2016, h_2016, all.x = TRUE, by = "BIRIMNO")
-rm(f_2015, f_2016, h_2015, h_2016)
+fh_2017 = merge(f_2017, h_2017, all.x = TRUE, by = "BIRIMNO")
+rm(f_2015, f_2016, h_2015, h_2016, f_2017, h_2017); gc()
 
 # Data Standardisation for Happiness ----
 happiness = rbind(
@@ -35,12 +38,13 @@ happiness = rbind(
 	fh_2013[, .(happiness = likert(b9), weights = ff, year = 2013)],
 	fh_2014[, .(happiness = likert(b9), weights = ff, year = 2014)],
 	fh_2015[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2015)],
-	fh_2016[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2016)]
+	fh_2016[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2016)],
+	fh_2017[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2017)]
 								)
 
-comparison = as.data.table(
-	year = happiness$year,
+comparison = data.table(
+	year = happiness[, .N, .(year)]$year,
 	happiness = happiness[, .(avg_happiness = sum(happiness * weights) / sum(weights))
 												, .(year)]$avg_happiness,
-	gdp_pc = c()
+	gdp_pc = c(5775, 7035.8, 7596.9, 9247, 10444.4, 8560.7, 10002.6, 10427.6, 10459.2, 10821.7, 10394.5, NA, NA, NA)
 	)
