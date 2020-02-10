@@ -40,4 +40,4 @@ rsconnect/
 .Rproj.user
 /png
 
-.Rproj
+*.Rproj
