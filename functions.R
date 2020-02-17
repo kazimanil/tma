@@ -86,7 +86,7 @@ better_or_worse = function(value, numeric=FALSE){
     return = scale_transformation(value, 1, 3)
   } else {
     if(value == 1){
-      return = "Better"
+      return = "Better then Before"
     } else if(value == 2){
       return = "Same as Before"
     } else if(value == 3){
@@ -97,7 +97,6 @@ better_or_worse = function(value, numeric=FALSE){
   }
   return
 }
-
 better_or_worse = Vectorize(better_or_worse)
 
 happiness_transformation = function(value){
@@ -112,3 +111,44 @@ happiness_transformation = function(value){
   happiness
 }
 happiness_transformation = Vectorize(happiness_transformation)
+
+likert_categoric = function(value, keyword = "Satisfied"){
+  # Change keyword if necessary
+  if(value == 1){
+    satisfaction = paste0("Very ", keyword)
+  } else if(value == 2){
+    satisfaction = paste0(keyword)
+  } else if(value == 3){
+    satisfaction = "Neutral"
+  } else if(value == 4){
+    satisfaction = paste0("Not ", keyword)
+  } else if(value == 5){
+    satisfaction = paste0("Not ", keyword, " At All")
+  } else {
+    satisfaction = as.character(NA)
+  }
+  satisfaction
+}
+likert_categoric = Vectorize(likert_categoric)
+
+materialism = function(value){
+  if(value %in% c(1,2,3,6)){
+    materialistic = "Materialistic"
+  } else if (value %in% c(4,5)){
+    materialistic = "Not Materialistic"
+  } else {
+    materialistic = as.character(NA)
+  }
+}
+
+materialism = Vectorize(materialism)
+
+household_income_transformation = function(value){
+  return = paste0("Household Income Tier ", value)
+  return
+}
+household_income_transformation = Vectorize(household_income_transformation)
+
+household_income_sufficiency = function(value){
+  
+}
