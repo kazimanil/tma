@@ -22,15 +22,93 @@ scale_transformation = function(value, minimum = 1, maximum = 5, descending = TR
 }
 scale_transformation = Vectorize(scale_transformation)
 
-gender = function(x){
+gender = function(value){
 	# TURKSTAT assigns value 1 to female and 2 to male.
-	if(x==2){
-		gender = "male"
-	} else if(x==1){
-		gender = "female"
+	if(value==2){
+		gender = "Male"
+	} else if(value==1){
+		gender = "Female"
 	} else {
 		gender = as.character(NA)
 	}
 	gender
 }
 gender = Vectorize(gender)
+
+marital_status = function(value){
+  # Replies to marital status question are encoded in numeric values.
+  # This function reverts it into categorical values.
+  if(value == 1){
+    marital = "Single"
+  } else if(value == 2){
+    marital = "Married"
+  } else if(value %in% c(3,4,5)){
+    marital = "Other" # Other includes: Widow, Divorced, Married but living separately.
+  } else {
+    marital = as.character(NA)
+  }
+  marital
+}
+marital_status = Vectorize(marital_status)
+
+education_level = function(value){
+  if(value > 0 & value < 3){
+    education = "No Schooling"
+  } else if(value > 2 & value < 8){
+    education = "Primary Education"
+  } else if(value > 7 & value < 13){
+    education = "Secondary Education"
+  } else if(value > 12 & value < 15){
+    education = "Tertiary Education"
+  } else {
+    education = as.character(NA)
+  }
+  education
+}
+education_level = Vectorize(education_level)
+
+employment = function(value){
+  if(value %in% c(1,2)){
+    labour = "Employed"
+  } else if(value == 3){
+    labour = "Unemployed"
+  } else if(value %in% seq(4,9,1)){
+    labour = "Out of Labour Force"
+  } else {
+    labour = as.character(NA)
+  }
+  labour
+}
+employment = Vectorize(employment)
+
+better_or_worse = function(value, numeric=FALSE){
+  if(numeric){
+    return = scale_transformation(value, 1, 3)
+  } else {
+    if(value == 1){
+      return = "Better"
+    } else if(value == 2){
+      return = "Same as Before"
+    } else if(value == 3){
+      return = "Worse then Before"
+    } else {
+      return = as.character(NA)
+    }
+  }
+  return
+}
+
+better_or_worse = Vectorize(better_or_worse)
+
+happiness_transformation = function(value){
+  transformed_value = scale_transformation(value, 1, 5)
+  if(transformed_value < 0.5 & transformed_value >=0){
+    happiness = "Not Happy"
+  } else if(transformed_value > 0.5 & transformed_value <= 1){
+    happiness = "Happy"
+  } else {
+    happiness = as.character(NA)
+  }
+  happiness
+}
+happiness_transformation = Vectorize(happiness_transformation)
