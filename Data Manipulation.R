@@ -53,7 +53,7 @@ logit_2004 = data_2004[, .(
 
 # Aggregated Data on Happiness and GDP per Capita in Turkey ----
 happiness = rbind(
-	data_2004[, .(happiness = scale_transformation(b07, minimum = 5, maximum = 1),
+    data_2004[, .(happiness = scale_transformation(b07, minimum = 5, maximum = 1),
 	              weights = ff,
 	              year = 2004)],
 	data_2005[, .(happiness = scale_transformation(bsoru7, minimum = 5, maximum = 1),
@@ -101,5 +101,9 @@ comparison = data.table(
 	year = happiness[, .N, .(year)]$year,
 	happiness = happiness[, .(avg_happiness = sum(happiness * weights) / sum(weights))
 												, .(year)]$avg_happiness,
-	gdp_pc = c(5775, 7035.8, 7596.9, 9247, 10444.4, 8560.7, 10002.6, 10427.6, 10459.2, 10821.7, 10394.5, NA, NA, NA)
+	# source : World Bank
+	# https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?end=2024&locations=TR&start=2003&view=chart
+	gdp_pc = c(5960.8, 7303, 7953.1, 9711.2, 10843.5, 9013, 10622.7, 11300.8, 11713.3, 12578.2,
+	           12165.2, 11050, 10970, 10695.6)
 	)
+fwrite(comparison, "agg_data/happiness_gdp_turkey_2004_2017.csv")
