@@ -1,29 +1,25 @@
 # Source Files Import ----
 rm(list = ls()); gc();
 source("https://raw.githubusercontent.com/kazimanil/tma/master/functions.R") # Base functions for data manipulation
-source("https://raw.githubusercontent.com/kazimanil/project_kaf/master/gg_theme.R") # My Theme for GGPlot2
+source("https://raw.githubusercontent.com/kazimanil/project_kaf/refs/heads/master/R_functions/gg_theme.R") # My Theme for GGPlot2
 
 # Raw Data Import ----
 # The Data is shared by TURKSTAT on the promise that it will not be shared publicly.
 # Thus, I will only be able share aggregated data after the manipulation & aggregation steps.
-library(foreign); # STATA Data Input
-data_2004 = as.data.table(read.dta("data/2004_fh.dta"))
-data_2005 = as.data.table(read.dta("data/2005_fh.dta"))
-data_2006 = as.data.table(read.dta("data/2006_fh.dta"))
-data_2007 = as.data.table(read.dta("data/2007_fh.dta"))
-data_2008 = as.data.table(read.dta("data/2008_fh.dta"))
-data_2009 = as.data.table(read.dta("data/2009_fh.dta"))
-data_2010 = as.data.table(read.dta("data/2010_fh.dta"))
-data_2011 = as.data.table(read.dta("data/2011_fh.dta"))
-data_2012 = as.data.table(read.dta("data/2012_fh.dta"))
-data_2013 = as.data.table(read.dta("data/2013_fh.dta"))
-data_2014 = as.data.table(read.dta("data/2014_fh.dta"))
-fert_2015 = fread("data/yma2015_fert_mikroveri.csv")
-hane_2015 = fread("data/yma2015_fert_mikroveri.csv")
-fert_2016 = fread("data/yma2016_fert_mikroveri.csv")
-hane_2016 = fread("data/yma2016_hane_mikroveri.csv")
-fert_2017 = fread("data/yma2017_fert_mikroveri.csv")
-hane_2017 = fread("data/yma2017_hane_mikroveri.csv")
+data_2004 = fread("data/data_2004.csv")
+data_2005 = fread("data/data_2005.csv")
+data_2006 = fread("data/data_2006.csv")
+data_2007 = fread("data/data_2007.csv")
+data_2008 = fread("data/data_2008.csv")
+data_2009 = fread("data/data_2009.csv")
+data_2010 = fread("data/data_2010.csv")
+data_2011 = fread("data/data_2011.csv")
+data_2012 = fread("data/data_2012.csv")
+data_2013 = fread("data/data_2013.csv")
+data_2014 = fread("data/data_2014.csv")
+data_2015 = fread("data/data_2015.csv")
+data_2016 = fread("data/data_2016.csv")
+data_2017 = fread("data/data_2017.csv")
 
 logit_2004 = data_2004[, .(
   weight = ff, # weight determines how many people the respondee represents.
@@ -57,20 +53,48 @@ logit_2004 = data_2004[, .(
 
 # Aggregated Data on Happiness and GDP per Capita in Turkey ----
 happiness = rbind(
-	fh_2004[, .(happiness = likert(b07), weights = ff, year = 2004)],
-	fh_2005[, .(happiness = likert(bsoru7), weights = ff, year = 2005)],
-	fh_2006[, .(happiness = likert(bs7), weights = faktor_fert, year = 2006)],
-	fh_2007[, .(happiness = likert(bs7), weights = faktor_fert, year = 2007)],
-	fh_2008[, .(happiness = likert(bs7), weights = faktor_fert, year = 2008)],
-	fh_2009[, .(happiness = likert(b9), weights = ff, year = 2009)],
-	fh_2010[, .(happiness = likert(b9), weights = faktor_fert, year = 2010)],
-	fh_2011[, .(happiness = likert(b9), weights = ff, year = 2011)],
-	fh_2012[, .(happiness = likert(b08), weights = ff, year = 2012)],
-	fh_2013[, .(happiness = likert(b9), weights = ff, year = 2013)],
-	fh_2014[, .(happiness = likert(b9), weights = ff, year = 2014)],
-	fh_2015[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2015)],
-	fh_2016[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2016)],
-	fh_2017[, .(happiness = likert(MUTLULUK), weights = as.numeric(gsub(",", ".", FAKTOR_FERT)), year = 2017)]
+	data_2004[, .(happiness = scale_transformation(b07, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2004)],
+	data_2005[, .(happiness = scale_transformation(bsoru7, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2005)],
+	data_2006[, .(happiness = scale_transformation(bs7, minimum = 5, maximum = 1),
+	              weights = faktor_fert,
+	              year = 2006)],
+	data_2007[, .(happiness = scale_transformation(bs7, minimum = 5, maximum = 1),
+	              weights = faktor_fert,
+	              year = 2007)],
+	data_2008[, .(happiness = scale_transformation(bs7, minimum = 5, maximum = 1),
+	              weights = faktor_fert,
+	              year = 2008)],
+	data_2009[, .(happiness = scale_transformation(b9, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2009)],
+	data_2010[, .(happiness = scale_transformation(b9, minimum = 5, maximum = 1),
+	              weights = faktor_fert,
+	              year = 2010)],
+	data_2011[, .(happiness = scale_transformation(b9, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2011)],
+	data_2012[, .(happiness = scale_transformation(b08, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2012)],
+	data_2013[, .(happiness = scale_transformation(b9, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2013)],
+	data_2014[, .(happiness = scale_transformation(b9, minimum = 5, maximum = 1),
+	              weights = ff,
+	              year = 2014)],
+	data_2015[, .(happiness = scale_transformation(MUTLULUK, minimum = 5, maximum = 1),
+	              weights = as.numeric(gsub(",", ".", FAKTOR_FERT)),
+	              year = 2015)],
+	data_2016[, .(happiness = scale_transformation(MUTLULUK, minimum = 5, maximum = 1),
+	              weights = as.numeric(gsub(",", ".", FAKTOR_FERT)),
+	              year = 2016)],
+	data_2017[, .(happiness = scale_transformation(MUTLULUK, minimum = 5, maximum = 1),
+	              weights = as.numeric(gsub(",", ".", FAKTOR_FERT)),
+	              year = 2017)]
 								)
 
 comparison = data.table(
