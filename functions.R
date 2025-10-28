@@ -6,16 +6,16 @@
 ## Functions :
 
 scale_transformation = function(value, minimum = 5, maximum = 1){
-	# value: column to be transformed.
-	# maximum: maximum value of the scale.
-  # minimum: minimum value of the scale.
-  # Unconventionally, TURKSTAT assigns higher values to worse values. 1 as Very Happy or 5 as Very Unhappy as examples.
-  # Thus, a conversion is needed for 1-5 scale questions.
-	if(minimum > maximum){
-	  number_range = seq(maximum, minimum, 1)
-	} else{
-	  number_range = seq(minimum, maximum, 1)
-	}
+    # value: column to be transformed.
+    # maximum: maximum value of the scale.
+    # minimum: minimum value of the scale.
+    # Unconventionally, TURKSTAT assigns higher values to worse values. 1 as Very Happy or 5 as Very Unhappy as examples.
+    # Thus, a conversion is needed for 1-5 scale questions.
+    if(minimum > maximum){
+      number_range = seq(maximum, minimum, 1)
+    } else{
+      number_range = seq(minimum, maximum, 1)
+    }
   if(value %in% number_range){
     return = (value - minimum) / (maximum - minimum)
   } else {
@@ -26,15 +26,15 @@ scale_transformation = function(value, minimum = 5, maximum = 1){
 scale_transformation = Vectorize(scale_transformation)
 
 gender = function(value){
-	# TURKSTAT assigns value 1 to female and 2 to male.
-	if(value==1){
-		gender = "Male"
-	} else if(value==2){
-		gender = "Female"
-	} else {
-		gender = as.character(NA)
-	}
-	gender
+    # TURKSTAT assigns value 1 to female and 2 to male.
+    if(value==1){
+        gender = "Male"
+    } else if(value==2){
+        gender = "Female"
+    } else {
+        gender = as.character(NA)
+    }
+    gender
 }
 gender = Vectorize(gender)
 
