@@ -6,6 +6,8 @@ source("https://raw.githubusercontent.com/kazimanil/project_kaf/refs/heads/maste
 # Raw Data Import ----
 # The Data is shared by TURKSTAT on the promise that it will not be shared publicly.
 # Thus, I will only be able share aggregated data after the manipulation & aggregation steps.
+data_2003 = fread("data/data_2003.csv")
+# year 2003 was the first release of the survey and thus the variables are not fully compatible with the later years.
 data_2004 = fread("data/data_2004.csv")
 data_2005 = fread("data/data_2005.csv")
 data_2006 = fread("data/data_2006.csv")
@@ -53,6 +55,9 @@ logit_2004 = data_2004[, .(
 
 # Aggregated Data on Happiness and GDP per Capita in Turkey ----
 happiness = rbind(
+    data_2003[, .(happiness = scale_transformation(s8, minimum = 5, maximum = 1),
+                  weights = ff,
+                  year = 2003)],
     data_2004[, .(happiness = scale_transformation(b07, minimum = 5, maximum = 1),
 	              weights = ff,
 	              year = 2004)],
@@ -103,7 +108,7 @@ comparison = data.table(
 												, .(year)]$avg_happiness,
 	# source : World Bank
 	# https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?end=2024&locations=TR&start=2003&view=chart
-	gdp_pc = c(5960.8, 7303, 7953.1, 9711.2, 10843.5, 9013, 10622.7, 11300.8, 11713.3, 12578.2,
-	           12165.2, 11050, 10970, 10695.6)
+	gdp_pc = c(4637.9, 5960.8, 7303, 7953.1, 9711.2, 10843.5, 9013, 10622.7, 11300.8, 11713.3,
+	           12578.2, 12165.2, 11050, 10970, 10695.6)
 	)
-fwrite(comparison, "agg_data/happiness_gdp_turkey_2004_2017.csv")
+rm(happiness); fwrite(comparison, "agg_data/happiness_gdp_turkey_2004_2017.csv")
