@@ -111,4 +111,4 @@ comparison = data.table(
 	gdp_pc = c(4637.9, 5960.8, 7303, 7953.1, 9711.2, 10843.5, 9013, 10622.7, 11300.8, 11713.3,
 	           12578.2, 12165.2, 11050, 10970, 10695.6)
 	)
-rm(happiness); fwrite(comparison, "agg_data/happiness_gdp_turkey_2004_2017.csv")
+rm(happiness); fwrite(comparison, "agg_data/happiness_gdp_turkey_2003_2017.csv")
