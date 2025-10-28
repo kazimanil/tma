@@ -55,7 +55,7 @@ logit_2004 = data_2004[, .(
 
 # Aggregated Data on Happiness and GDP per Capita in Turkey ----
 happiness = rbind(
-    data_2003[, .(happiness = scale_transformation(s8, minimum = 5, maximum = 1),
+    data_2003[,.( happiness = scale_transformation(s8, minimum = 5, maximum = 1),
                   weights = ff,
                   year = 2003)],
     data_2004[, .(happiness = scale_transformation(b07, minimum = 5, maximum = 1),
@@ -104,7 +104,10 @@ happiness = rbind(
 
 comparison = data.table(
 	year = happiness[, .N, .(year)]$year,
-	happiness = happiness[, .(avg_happiness = sum(happiness * weights) / sum(weights))
+	# somehow some people escaped to answer the main question in the experimental year of 2003
+	# we'll omit those 25 observations representing 180k people, or %4 of the relevant year's target population.
+	# we'll assume that bias is negligible.
+	happiness = happiness[!is.na(happiness), .(avg_happiness = sum(happiness * weights) / sum(weights))
 												, .(year)]$avg_happiness,
 	# source : World Bank
 	# https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?end=2024&locations=TR&start=2003&view=chart
