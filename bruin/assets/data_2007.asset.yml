@@ -1,0 +1,6 @@
+name: raw.data_2007
+type: duckdb.seed
+description: Raw TURKSTAT Life Satisfaction Survey microdata for 2007, loaded as-is from the source CSV (schema not yet harmonized across years).
+
+parameters:
+  path: ../../data/data_2007.csv
