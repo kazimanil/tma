@@ -41,3 +41,4 @@ rsconnect/
 
 *.Rproj
 *.pdf
+*.lintr
