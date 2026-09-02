@@ -1,8 +1,8 @@
 ## Created By: Kazım Anıl Eren
 ## Created On: 2020-02-17
-## Edited  On: 2022-10-19
+## Edited  On: 2026-09-02
 ## Target    : Standardising the answers to different questions from TURKSTAT's LSS (Life Satisfaction Survey) questionnaire into 0-1 scale.
-## Edits     :
+## Edits     : Edited to cover the newly added questions in the 2013 and 2014 surveys. Added functions to convert numeric values to categorical values for gender, marital
 ## Functions :
 
 scale_transformation = function(value, minimum = 5, maximum = 1){
@@ -54,8 +54,8 @@ marital_status = function(value){
 }
 marital_status = Vectorize(marital_status)
 
-education_level = function(value, after2013 = FALSE){
-  if(after2013 == FALSE){
+education_level = function(value, scheme = "pre2013"){
+  if(scheme == "pre2013"){
     if(value > 0 & value < 3){
       education = "No Schooling"
     } else if(value > 2 & value < 8){
@@ -66,19 +66,43 @@ education_level = function(value, after2013 = FALSE){
       education = "Tertiary Education"
     } else {
       education = as.character(NA)
-    }   
-  } else if(after2013){
+    }
+  } else if(scheme == "2013"){
+    if(value == 1){
+      education = "No Schooling"
+    } else if(value %in% c(2, 3)){
+      education = "Primary Education"
+    } else if(value == 4){
+      education = "Secondary Education"
+    } else if(value %in% c(5, 6, 7)){
+      education = "Tertiary Education"
+    } else {
+      education = as.character(NA)
+    }
+  } else if(scheme == "2014_2016"){
     if(value == 0){
       education = "No Schooling"
     } else if(value %in% c(1, 21, 22, 23)){
       education = "Primary Education"
-    } else if(value  %in% c(31, 32)){
+    } else if(value %in% c(31, 32)){
       education = "Secondary Education"
     } else if(value  %in% c(4, 5, 6, 7)){
       education = "Tertiary Education"
     } else {
       education = as.character(NA)
-    }   
+    }
+  } else if(scheme == "2017"){
+    if(value == 1){
+      education = "No Schooling"
+    } else if(value %in% c(2, 31, 32, 33)){
+      education = "Primary Education"
+    } else if(value %in% c(41, 42)){
+      education = "Secondary Education"
+    } else if(value %in% c(511, 512, 52, 53)){
+      education = "Tertiary Education"
+    } else {
+      education = as.character(NA)
+    }
   } else {
     education = as.character(NA)
   }
@@ -238,6 +262,98 @@ job_satisfaction = function(categoric, satisfaction){
 }
 
 job_satisfaction = Vectorize(job_satisfaction)
+
+comparison_concern_transformation = function(value){
+  if(value == 3){
+    concern = "Not Important"
+  } else if(value == 2){
+    concern = "Somewhat Important"
+  } else if(value == 1){
+    concern = "Important"
+  } else {
+    concern = as.character(NA)
+  }
+  concern
+}
+comparison_concern_transformation = Vectorize(comparison_concern_transformation)
+
+future_outlook_transformation = function(value){
+  if(value == 3){
+    outlook = "Expects Worse"
+  } else if(value %in% c(2, 4)){
+    outlook = "Same / No Opinion"
+  } else if(value == 1){
+    outlook = "Expects Better"
+  } else {
+    outlook = as.character(NA)
+  }
+  outlook
+}
+future_outlook_transformation = Vectorize(future_outlook_transformation)
+
+wellbeing_ladder_transformation = function(value, legacy_coding = FALSE){
+  rung = if(legacy_coding) value - 1 else value
+  if(rung %in% seq(0, 10, 1)){
+    rung
+  } else {
+    as.numeric(NA)
+  }
+}
+wellbeing_ladder_transformation = Vectorize(wellbeing_ladder_transformation)
+
+yes_no_transformation = function(value){
+  if(value == 1){
+    result = "Yes"
+  } else if(value == 2){
+    result = "No"
+  } else {
+    result = as.character(NA)
+  }
+  result
+}
+yes_no_transformation = Vectorize(yes_no_transformation)
+
+social_pressure_transformation = function(value){
+  if(value == 1){
+    result = "No Pressure"
+  } else if(value %in% c(2, 3, 4)){
+    result = "Felt Pressure"
+  } else {
+    result = as.character(NA)
+  }
+  result
+}
+social_pressure_transformation = Vectorize(social_pressure_transformation)
+
+housing_tenure_transformation = function(value){
+  if(value == 1){
+    tenure = "Owner"
+  } else if(value == 2){
+    tenure = "Renter"
+  } else if(value == 3){
+    tenure = "Employer-Provided Housing"
+  } else if(value == 4){
+    tenure = "Rent-Free (Non-Owner)"
+  } else {
+    tenure = as.character(NA)
+  }
+  tenure
+}
+housing_tenure_transformation = Vectorize(housing_tenure_transformation)
+
+religiosity_transformation = function(value){
+  if(value == 1){
+    religiosity = "Religious"
+  } else if(value == 2){
+    religiosity = "Somewhat Religious"
+  } else if(value == 3){
+    religiosity = "Not Religious"
+  } else {
+    religiosity = as.character(NA)
+  }
+  religiosity
+}
+religiosity_transformation = Vectorize(religiosity_transformation)
 
 
 rowmean2 <- function(x, y) {
