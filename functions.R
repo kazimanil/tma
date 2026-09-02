@@ -238,3 +238,10 @@ job_satisfaction = function(categoric, satisfaction){
 }
 
 job_satisfaction = Vectorize(job_satisfaction)
+
+
+rowmean2 <- function(x, y) {
+    m <- rowMeans(cbind(x, y), na.rm = TRUE)
+    m[is.nan(m)] <- NA_real_
+    m
+}
