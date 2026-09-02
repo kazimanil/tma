@@ -301,7 +301,14 @@ wellbeing_ladder_transformation = function(value, legacy_coding = FALSE){
 }
 wellbeing_ladder_transformation = Vectorize(wellbeing_ladder_transformation)
 
-yes_no_transformation = function(value){
+yes_no_transformation = function(value, na_as_no = FALSE){
+  if(is.na(value)){
+    if(na_as_no){
+      return("No")
+    } else {
+      return(as.character(NA))
+    }
+  }
   if(value == 1){
     result = "Yes"
   } else if(value == 2){
