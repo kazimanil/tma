@@ -706,3 +706,235 @@ if(length(panel_compat$name_mismatches) == 0 && length(panel_compat$type_mismatc
     cat("Name mismatches:", paste(panel_compat$name_mismatches, collapse = ", "), "\n")
     cat("Type mismatches:", paste(panel_compat$type_mismatches, collapse = ", "), "\n")
 }
+
+# Panel Outputs ----
+
+events_2013 = cbind(
+    as.data.table(row.names(events_2013_results$coefficients)),
+    as.data.table(events_2013_results$coefficients)
+)
+events_2013 = events_2013[, .(
+    coefficients = V1,
+    estimate_2013 = Estimate,
+    z_2013 = `Pr(>|z|)` < 0.05
+)]
+
+events_2014 = cbind(
+    as.data.table(row.names(events_2014_results$coefficients)),
+    as.data.table(events_2014_results$coefficients)
+)
+events_2014 = events_2014[, .(
+    coefficients = V1,
+    estimate_2014 = Estimate,
+    z_2014 = `Pr(>|z|)` < 0.05
+)]
+
+events_2015 = cbind(
+    as.data.table(row.names(events_2015_results$coefficients)),
+    as.data.table(events_2015_results$coefficients)
+)
+events_2015 = events_2015[, .(
+    coefficients = V1,
+    estimate_2015 = Estimate,
+    z_2015 = `Pr(>|z|)` < 0.05
+)]
+
+events_2016 = cbind(
+    as.data.table(row.names(events_2016_results$coefficients)),
+    as.data.table(events_2016_results$coefficients)
+)
+events_2016 = events_2016[, .(
+    coefficients = V1,
+    estimate_2016 = Estimate,
+    z_2016 = `Pr(>|z|)` < 0.05
+)]
+
+events_2017 = cbind(
+    as.data.table(row.names(events_2017_results$coefficients)),
+    as.data.table(events_2017_results$coefficients)
+)
+events_2017 = events_2017[, .(
+    coefficients = V1,
+    estimate_2017 = Estimate,
+    z_2017 = `Pr(>|z|)` < 0.05
+)]
+
+events = merge(
+    events_2013,
+    events_2014,
+    by = 'coefficients')
+
+events = merge(
+    events,
+    events_2015,
+    by = 'coefficients'
+)
+
+events = merge(
+    events,
+    events_2016,
+    by = 'coefficients'
+)
+
+events = merge(
+    events,
+    events_2017,
+    by = 'coefficients'
+)
+
+fwrite(events, 'agg_data/events.csv', dec = ',', sep = '|')
+
+main_2013 = cbind(
+    as.data.table(row.names(main_2013_results$coefficients)),
+    as.data.table(main_2013_results$coefficients)
+)
+main_2013 = main_2013[, .(
+    coefficients = V1,
+    estimate_2013 = Estimate,
+    z_2013 = `Pr(>|z|)` < 0.05
+)]
+
+main_2014 = cbind(
+    as.data.table(row.names(main_2014_results$coefficients)),
+    as.data.table(main_2014_results$coefficients)
+)
+main_2014 = main_2014[, .(
+    coefficients = V1,
+    estimate_2014 = Estimate,
+    z_2014 = `Pr(>|z|)` < 0.05
+)]
+
+main_2015 = cbind(
+    as.data.table(row.names(main_2015_results$coefficients)),
+    as.data.table(main_2015_results$coefficients)
+)
+main_2015 = main_2015[, .(
+    coefficients = V1,
+    estimate_2015 = Estimate,
+    z_2015 = `Pr(>|z|)` < 0.05
+)]
+
+main_2016 = cbind(
+    as.data.table(row.names(main_2016_results$coefficients)),
+    as.data.table(main_2016_results$coefficients)
+)
+main_2016 = main_2016[, .(
+    coefficients = V1,
+    estimate_2016 = Estimate,
+    z_2016 = `Pr(>|z|)` < 0.05
+)]
+
+main_2017 = cbind(
+    as.data.table(row.names(main_2017_results$coefficients)),
+    as.data.table(main_2017_results$coefficients)
+)
+main_2017 = main_2017[, .(
+    coefficients = V1,
+    estimate_2017 = Estimate,
+    z_2017 = `Pr(>|z|)` < 0.05
+)]
+
+main =  merge(
+    main_2013,
+    main_2014,
+    by = 'coefficients')
+
+main =  merge(
+    main,
+    main_2015,
+    by = 'coefficients'
+)
+
+main =  merge(
+    main,
+    main_2016,
+    by = 'coefficients'
+)
+
+main =  merge(
+    main,
+    main_2017,
+    by = 'coefficients'
+)
+
+fwrite(main, 'agg_data/main.csv', dec = ',', sep = '|')
+
+combined_2013 = cbind(
+    as.data.table(row.names(combined_2013_results$coefficients)),
+    as.data.table(combined_2013_results$coefficients)
+)
+combined_2013 = combined_2013[, .(
+    coefficients = V1,
+    estimate_2013 = Estimate,
+    z_2013 = `Pr(>|z|)` < 0.05
+)]
+
+combined_2014 = cbind(
+    as.data.table(row.names(combined_2014_results$coefficients)),
+    as.data.table(combined_2014_results$coefficients)
+)
+combined_2014 = combined_2014[, .(
+    coefficients = V1,
+    estimate_2014 = Estimate,
+    z_2014 = `Pr(>|z|)` < 0.05
+)]
+
+combined_2015 = cbind(
+    as.data.table(row.names(combined_2015_results$coefficients)),
+    as.data.table(combined_2015_results$coefficients)
+)
+combined_2015 = combined_2015[, .(
+    coefficients = V1,
+    estimate_2015 = Estimate,
+    z_2015 = `Pr(>|z|)` < 0.05
+)]
+
+combined_2016 = cbind(
+    as.data.table(row.names(combined_2016_results$coefficients)),
+    as.data.table(combined_2016_results$coefficients)
+)
+combined_2016 = combined_2016[, .(
+    coefficients = V1,
+    estimate_2016 = Estimate,
+    z_2016 = `Pr(>|z|)` < 0.05
+)]
+
+combined_2017 = cbind(
+    as.data.table(row.names(combined_2017_results$coefficients)),
+    as.data.table(combined_2017_results$coefficients)
+)
+combined_2017 = combined_2017[, .(
+    coefficients = V1,
+    estimate_2017 = Estimate,
+    z_2017 = `Pr(>|z|)` < 0.05
+)]
+
+combined =  merge(
+    combined_2013,
+    combined_2014,
+    by = 'coefficients')
+
+combined =  merge(
+    combined,
+    combined_2015,
+    by = 'coefficients'
+)
+
+combined =  merge(
+    combined,
+    combined_2016,
+    by = 'coefficients'
+)
+
+combined =  merge(
+    combined,
+    combined_2017,
+    by = 'coefficients'
+)
+
+fwrite(combined, 'agg_data/combined.csv', dec = ',', sep = '|')
+
+# Pressure x Satisfaction ----
+gender = full_panel[, .(mean(happiness_ordered)), .(source_year, gender, pressure_gender)][order(source_year, gender, pressure_gender)]
+marital = full_panel[, .(mean(happiness_ordered)), .(pressure_marital_status, marital_status_satisfaction)][order(pressure_marital_status, marital_status_satisfaction)]
+employment = full_panel[, .(mean(happiness_ordered)), .(employment_job_satisfaction, pressure_income_level)][order(employment_job_satisfaction, pressure_income_level)]
