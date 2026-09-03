@@ -309,6 +309,9 @@ yes_no_transformation = function(value, na_as_no = FALSE){
       return(as.character(NA))
     }
   }
+  if(na_as_no & value == 3){
+    return("No")
+  }
   if(value == 1){
     result = "Yes"
   } else if(value == 2){
