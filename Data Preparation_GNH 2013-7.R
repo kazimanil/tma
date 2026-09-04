@@ -651,4 +651,4 @@ gnh_summary_by_year <- gnh_panel[, .(
   job_satisfaction        = weighted.mean(dom_job_satisfaction, weight, na.rm = TRUE),
   gnh                     = weighted.mean(gnh, weight, na.rm = TRUE)
 ), by = year][order(year)]
-fwrite(gnh_summary_by_year, "agg_data/gnh_turkey_2013_2017.csv", sep = "|", dec = ".")
+fwrite(gnh_summary_by_year, "agg_data/gnh_turkey_2013_2017.csv", sep = "|", dec = ",")
